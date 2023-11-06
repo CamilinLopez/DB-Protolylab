@@ -4,8 +4,18 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const routes = require("./routes/index");
+const passport = require("passport");
+const session = require("express-session");
 
 const server = express();
+
+server.use(
+  session({
+    secret: "asafeas-efe52wa23ds*",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 server.use(cors());
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
@@ -23,6 +33,7 @@ server.use((req, res, next) => {
 
   next();
 });
+server.use(passport.initialize());
 
 server.use("/", routes);
 
@@ -34,6 +45,5 @@ server.use((err, req, res, next) => {
 });
 
 // server.use(express.json());
-
 
 module.exports = server;
