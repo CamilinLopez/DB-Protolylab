@@ -11,15 +11,15 @@ const checkProject = async (nombre) => {
   }
 };
 
-const addProject = async ({ nombre, texto, linkimagen, idimage }) => {
+const addProject = async ({ nombre, texto, linkimagen, idimage, website }) => {
   try {
     const [project, created] = await projects.findOrCreate({
       where: { nombre },
-      defaults: { nombre, texto, linkimagen, idimage },
+      defaults: { nombre, texto, linkimagen, idimage, website },
     });
     if (!created)
       throw new Error(`El proyecto ${nombre.toUpperCase()} ya exsite`);
-    return `Sea ha agregado el proyecto ${nombre.toUpperCase()}`;
+    return `Se ha agregado el proyecto ${nombre.toUpperCase()}`;
   } catch (error) {
     throw error;
   }

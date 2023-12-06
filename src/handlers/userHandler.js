@@ -1,8 +1,16 @@
 const handleGetUser = (req, res) => {
-  if (req.isAuthenticated()) res.status(200).send("autentificacion exitosa");
-  else res.status(400).send("Error de autentificacion");
+  // console.log(req)
+  res.status(200).send({user: req.user});
+};
+
+const handleLogoutUser = (req, res, next) => {
+  req.logout((err) => {
+    return next(err);
+  });
+  res.status(200).send("Sesion finalizada");
 };
 
 module.exports = {
   handleGetUser,
+  handleLogoutUser,
 };

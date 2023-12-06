@@ -2,6 +2,9 @@ const passport = require("passport");
 const { addUser } = require("../controllers/User");
 const { catchEmpty } = require("../utils");
 const users = require("../database/db");
+const authRouter = require("express").Router();
+const axios = require("axios");
+const jwt = require("jsonwebtoken");
 
 var GoogleStrategy = require("passport-google-oauth20").Strategy;
 
@@ -14,6 +17,15 @@ passport.use(
     },
     async function (accessToken, refreshToken, profile, cb) {
       try {
+        const response = await axios.get(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+
         const user = {
           id: profile.id,
           displayName: profile.displayName,
@@ -22,10 +34,11 @@ passport.use(
           photos: profile.photos,
         };
         await catchEmpty(user);
+
         const newUser = await addUser(user);
-        cb(null, newUser);
+        return cb(null, newUser);
       } catch (error) {
-        cb(error, null);
+        return cb(error, null);
       }
     }
   )
@@ -38,10 +51,52 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await users.findById(id);
+    if (!user) return done(null, false);
     done(null, user);
   } catch (error) {
     done(error, null);
   }
 });
 
-module.exports = passport;
+authRouter.use((err, req, res, next) => {
+  if (err) res.status(400).send(err.message);
+  else next();
+});
+
+authRouter.get(
+  "/",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+authRouter.get(
+  "/callback",
+  passport.authenticate("google", { failureRedirect: "/auth/google" }),
+  (req, res) => {
+    if (req.isAuthenticated()) {
+      const user = req.user;
+
+      const token = jwt.sign(
+        {
+          userId: user.id,
+          email: user.email,
+        },
+        "cammmm123",
+        { expiresIn: "1h" }
+      );
+
+      res.cookie("token", token, { httpOnly: false, secure: false });
+      res.redirect(`http://localhost:3000/dashboard`);
+    } else res.redirect("/auth/google");
+  }
+);
+
+authRouter.get("/logout", (req, res) => {
+  // req.logout((err) => {
+  //   if (err) return next(err);
+
+  //   res.redirect("http://localhost:3000");
+  // });
+  res.redirect("http://localhost:3000/");
+});
+
+module.exports = { passport, authRouter };

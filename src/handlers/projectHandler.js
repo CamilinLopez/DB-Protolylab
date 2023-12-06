@@ -13,18 +13,19 @@ const handlerPostProject = async (req, res) => {
     nombre: req.body.nombre || undefined,
     texto: req.body.texto || undefined,
     imagen: req.body.imagen || undefined,
+    website: req.body.website || undefined,
   };
-
   try {
-    await checkProject(obj.nombre);
     catchEmpty(obj);
-    isItImage(obj.imagen);
+    await checkProject(obj.nombre);
+    // isItImage(obj.imagen);
     const result = await uploadImage(obj.imagen);
     const objDB = {
       nombre: obj.nombre,
       texto: obj.texto,
       linkimagen: result.secure_url,
       idimage: result.public_id,
+      website: obj.website
     };
 
     const data = await addProject(objDB);

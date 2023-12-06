@@ -1,28 +1,39 @@
-const { use } = require("passport");
 const { users } = require("../database/db");
 
-const addUser = async ({ id, displayName, name, emails, photos }) => {
+const verifyAuser = async () => {
   try {
-    const [user, created] = await users.findOrCreate({
-      where: { id },
-      defaults: { id, displayName, name, emails, photos },
-    });
-    if (!created)
-      return {
-        error: `No se ha creado el usuario ${displayName}`,
-      };
-
-    return user;
+    const data = await users.findAll();
+    if (data.length)
+      throw new Error("Solo se puede crear un usuario administrador");
   } catch (error) {
     throw error;
   }
 };
 
-const verifyAuser = async () => {
+const addUser = async ({ id, displayName, name, emails, photos }) => {
   try {
-    const data = await users.findAll();
-    if (data.length > 0)
-      throw new Error("Solo se puede crear un usuario administrador");
+    const data = await users.findOne({
+      where: { id },
+    });
+
+    if (data) return data;
+
+    await verifyAuser();
+
+    const newUser = await users.create({
+      id,
+      displayName,
+      name,
+      emails,
+      photos,
+    });
+
+    if (!newUser)
+      throw new Error({
+        error: `No se ha podido crear el usuario ${displayName}`,
+      });
+
+    return newUser;
   } catch (error) {
     throw error;
   }

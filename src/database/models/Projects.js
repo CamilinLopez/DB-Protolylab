@@ -24,6 +24,10 @@ const Project = (sequelize) =>
       type: DataTypes.STRING,
       allowNull: false,
     },
+    website: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   });
 
 module.exports = Project;
