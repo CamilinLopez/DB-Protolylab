@@ -56,7 +56,7 @@ const handlePutProject = async (req, res) => {
   };
 
   try {
-    catchEmpty(obj);
+    // catchEmpty(obj);
     const data = await updateProject(obj);
     res.status(200).send(data);
   } catch (error) {
