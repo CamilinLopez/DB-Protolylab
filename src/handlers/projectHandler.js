@@ -25,7 +25,7 @@ const handlerPostProject = async (req, res) => {
       texto: obj.texto,
       linkimagen: result.secure_url,
       idimage: result.public_id,
-      website: obj.website
+      website: obj.website,
     };
 
     const data = await addProject(objDB);
@@ -65,8 +65,9 @@ const handlePutProject = async (req, res) => {
 };
 
 const handleGetProject = async (req, res) => {
+  const { id } = req.query;
   try {
-    const data = await readProjects();
+    const data = await readProjects(id);
 
     res.status(200).send(data);
   } catch (error) {

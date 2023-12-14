@@ -53,8 +53,14 @@ const deleteProject = async (id) => {
   }
 };
 
-const readProjects = async () => {
+const readProjects = async (id) => {
   try {
+    if (id) {
+      const data = await projects.findOne({ where: { id } });
+      if (!data) throw new Error("No existe este proyecto");
+
+      return data;
+    }
     const data = await projects.findAll();
     if (!data.length) throw new Error("No hay proyectos");
 
