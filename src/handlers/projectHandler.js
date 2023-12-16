@@ -38,8 +38,9 @@ const handlerPostProject = async (req, res) => {
 
 const handlerDeleteProject = async (req, res) => {
   const obj = {
-    id: req.body.id || undefined,
+    id: req.query.id || undefined,
   };
+  console.log(obj.id)
   try {
     catchEmpty(obj);
     const data = await deleteProject(obj.id);
