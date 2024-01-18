@@ -25,6 +25,11 @@ const User = (sequelize) => {
       allowNull: true,
       defaultValue: [],
     },
+    isadmin: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+    },
   });
 };
 

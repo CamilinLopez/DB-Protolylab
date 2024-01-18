@@ -39,7 +39,23 @@ const addUser = async ({ id, displayName, name, emails, photos }) => {
   }
 };
 
+const dataUser = async (id) => {
+  try {
+    if (id) {
+      const data = await users.findOne({ where: { id } });
+      if (!data) throw new Error("No existe este usuario");
+
+      return data;
+    }
+    const data = await users.findAll();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   addUser,
   verifyAuser,
+  dataUser,
 };

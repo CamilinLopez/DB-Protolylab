@@ -1,5 +1,5 @@
 const passport = require("passport");
-const { addUser } = require("../controllers/User");
+const { addUser, dataUser } = require("../controllers/User");
 const { catchEmpty } = require("../utils");
 const users = require("../database/db");
 const authRouter = require("express").Router();
@@ -71,7 +71,7 @@ authRouter.get(
 authRouter.get(
   "/callback",
   passport.authenticate("google", { failureRedirect: "/auth/google" }),
-  (req, res) => {
+  async (req, res) => {
     if (req.isAuthenticated()) {
       const user = req.user;
 
@@ -84,7 +84,14 @@ authRouter.get(
         { expiresIn: "1h" }
       );
 
+      const data = await dataUser(user.id);
+
       res.cookie("token", token, { httpOnly: false, secure: false });
+      res.cookie("id", user.id, { httpOnly: false, secure: false });
+      res.cookie("isadmin", data.dataValues.isadmin, {
+        httpOnly: false,
+        secure: false,
+      });
       res.redirect(`http://localhost:3000/dashboard`);
     } else res.redirect("/auth/google");
   }
