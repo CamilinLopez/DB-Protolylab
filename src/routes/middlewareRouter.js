@@ -5,7 +5,7 @@ const middlewarRouter = Router();
 
 middlewarRouter.use(async (req, res, next) => {
   try {
-    await verifyAuser();
+    // await verifyAuser();
     next();
   } catch (error) {
     res.status(400).send(error.message);

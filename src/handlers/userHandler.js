@@ -1,4 +1,4 @@
-const { dataUser } = require("../controllers/User");
+const { dataUser, changeIsAdmin } = require("../controllers/User");
 
 const handleGetUser = async (req, res) => {
   const { id } = req.query;
@@ -18,7 +18,20 @@ const handleLogoutUser = (req, res, next) => {
   res.status(200).send("Sesion finalizada");
 };
 
+const handleChangeAdmin = async (req, res) => {
+  const { isadmin, id } = req.body;
+
+  try {
+    const data = await changeIsAdmin(isadmin, id);
+
+    res.status(200).send(data);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 module.exports = {
   handleGetUser,
   handleLogoutUser,
+  handleChangeAdmin,
 };

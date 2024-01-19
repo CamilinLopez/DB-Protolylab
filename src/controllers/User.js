@@ -1,3 +1,4 @@
+const { where } = require("sequelize");
 const { users } = require("../database/db");
 
 const verifyAuser = async () => {
@@ -18,7 +19,7 @@ const addUser = async ({ id, displayName, name, emails, photos }) => {
 
     if (data) return data;
 
-    await verifyAuser();
+    // await verifyAuser();
 
     const newUser = await users.create({
       id,
@@ -54,8 +55,26 @@ const dataUser = async (id) => {
   }
 };
 
+const changeIsAdmin = async (isadmin, id) => {
+  try {
+    const user = await users.findOne({ where: { id } });
+    if (!user) throw new Error("No exsiste un usuario con este id");
+
+    const result = await users.update(
+      { isadmin: !isadmin },
+      { where: { id: id } }
+    );
+
+    const newadminuser = await users.findOne({ where: { id } });
+    return newadminuser.isadmin;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   addUser,
   verifyAuser,
   dataUser,
+  changeIsAdmin,
 };
