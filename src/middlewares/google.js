@@ -86,7 +86,7 @@ authRouter.get(
 
       const data = await dataUser(user.id);
 
-      console.log(user)
+      console.log(user);
 
       res.cookie("token", token, { httpOnly: false, secure: false });
       res.cookie("id", user.id, { httpOnly: false, secure: false });
@@ -94,6 +94,7 @@ authRouter.get(
         httpOnly: false,
         secure: false,
       });
+      res.cookie("paraver", "tania", { httpOnly: false, secure: false });
       res.redirect(`http://localhost:3000/dashboard`);
     } else res.redirect("/auth/google");
   }
