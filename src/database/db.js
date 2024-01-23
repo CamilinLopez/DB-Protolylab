@@ -14,6 +14,12 @@ const database = new Sequelize(EXTERNAl_DATABASE_URL, {
   dialect: "postgres",
   logging: false,
   native: false,
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
 });
 
 modelProject(database);
