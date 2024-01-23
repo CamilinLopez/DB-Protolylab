@@ -86,6 +86,8 @@ authRouter.get(
 
       const data = await dataUser(user.id);
 
+      console.log(user)
+
       res.cookie("token", token, { httpOnly: false, secure: false });
       res.cookie("id", user.id, { httpOnly: false, secure: false });
       res.cookie("isadmin", data.dataValues.isadmin, {
