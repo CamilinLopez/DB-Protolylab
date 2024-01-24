@@ -107,7 +107,7 @@ authRouter.get("/logout", (req, res) => {
 
   //   res.redirect("http://localhost:3000");
   // });
-  res.redirect("http://localhost:3000/");
+  res.redirect("https://www.protolylab.digital");
 });
 
 module.exports = { passport, authRouter };
