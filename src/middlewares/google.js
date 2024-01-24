@@ -95,7 +95,8 @@ authRouter.get(
         httpOnly: false,
         secure: false,
       });
-      res.redirect(`http://localhost:3000/dashboard`);
+      //http://localhost:3000/dashboard
+      res.redirect(`https://www.protolylab.digital/dashboard`);
     } else res.redirect("/auth/google");
   }
 );
