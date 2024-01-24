@@ -7,7 +7,8 @@ const axios = require("axios");
 const jwt = require("jsonwebtoken");
 
 var GoogleStrategy = require("passport-google-oauth20").Strategy;
-
+// https://protolylab.onrender.com/auth/google/callback
+// http://localhost:3001/auth/google/callback
 passport.use(
   new GoogleStrategy(
     {
@@ -94,7 +95,6 @@ authRouter.get(
         httpOnly: false,
         secure: false,
       });
-      res.cookie("paraver", "tania", { httpOnly: false, secure: false });
       res.redirect(`http://localhost:3000/dashboard`);
     } else res.redirect("/auth/google");
   }

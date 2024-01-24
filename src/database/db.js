@@ -4,7 +4,6 @@ const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, EXTERNAl_DATABASE_URL } =
   process.env;
 const modelProject = require("./models/Projects");
 const modelUser = require("./models/Users");
-const { Pool } = require("pg");
 
 // const database = new Sequelize(
 //   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
