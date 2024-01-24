@@ -89,10 +89,10 @@ authRouter.get(
 
       console.log(user);
 
-      res.cookie("token", token, { httpOnly: false, secure: false });
-      res.cookie("id", user.id, { httpOnly: false, secure: false });
+      res.cookie("token", token, { httpOnly: true, secure: false });
+      res.cookie("id", user.id, { httpOnly: true, secure: false });
       res.cookie("isadmin", data.dataValues.isadmin, {
-        httpOnly: false,
+        httpOnly: true,
         secure: false,
       });
       //http://localhost:3000/dashboard
