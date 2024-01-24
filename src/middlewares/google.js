@@ -110,4 +110,12 @@ authRouter.get("/logout", (req, res) => {
   res.redirect("https://www.protolylab.digital");
 });
 
+authRouter.get("/verify", (req, res) => {
+  const cookieuser = req.cookies.token;
+
+  if (!cookieuser) res.status(200).send("error de cookie");
+
+  res.status(200).send(cookieuser);
+});
+
 module.exports = { passport, authRouter };
