@@ -130,8 +130,8 @@ authRouter.get("/logout", (req, res) => {
 
 authRouter.get("/verify", (req, res) => {
   res.cookie("isadmin", "perros", {
-    // domain: "http://localhost:3000",
-    // path: "/",
+    domain: "http://localhost:3000",
+    path: "/",
     httpOnly: true,
     secure: false,
   });
