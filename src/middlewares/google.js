@@ -6,6 +6,12 @@ const authRouter = require("express").Router();
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
 
+var dataUser = {
+  id: "",
+  token: "",
+  isadmin: false,
+};
+
 var GoogleStrategy = require("passport-google-oauth20").Strategy;
 // https://protolylab.onrender.com/auth/google/callback
 // http://localhost:3001/auth/google/callback
@@ -108,9 +114,22 @@ authRouter.get(
 authRouter.get(
   "/callback",
   passport.authenticate("google", { failureRedirect: "/auth/google" }),
-  (req, res) => {
+  async (req, res) => {
     if (req.isAuthenticated()) {
-      res.cookie("userId", req.user.id, {sameSite:false, secure:false});
+      const token = jwt.sign(
+        {
+          userId: user.id,
+          email: user.email,
+        },
+        "cammmm123",
+        { expiresIn: "1h" }
+      );
+
+      const data = await dataUser(user.id);
+
+      dataUser.id = req.user.id;
+      dataUser.token = token;
+      dataUser.isadmin = data.dataValues.isadmin;
 
       //http://localhost:3000/dashboard
       //https://www.protolylab.digital
@@ -131,14 +150,7 @@ authRouter.get("/logout", (req, res) => {
 });
 
 authRouter.get("/verify", (req, res) => {
-  res.cookie("isadmin", "perros", {
-    domain: "http://localhost:3000",
-    path: "/",
-    httpOnly: true,
-    secure: false,
-    sameSite: None,
-  });
-  res.status(200).send({ info: req.cookies });
+  res.status(200).send({ info: dataUser });
 });
 
 module.exports = { passport, authRouter };
