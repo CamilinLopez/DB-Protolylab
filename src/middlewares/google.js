@@ -108,7 +108,6 @@ async function setCookies(req, res, next) {
 authRouter.get(
   "/callback",
   passport.authenticate("google", { failureRedirect: "/auth/google" }),
-  setCookies,
   (req, res) => {
     if (req.isAuthenticated()) {
       res.cookie("isadmin", "perros", {
