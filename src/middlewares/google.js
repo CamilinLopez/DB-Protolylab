@@ -110,7 +110,11 @@ authRouter.get(
   passport.authenticate("google", { failureRedirect: "/auth/google" }),
   (req, res) => {
     if (req.isAuthenticated()) {
-      res.cookie("userId", req.user.id);
+      res.cookie("userId", req.user.id, {
+        domain: "onrender.com",
+        path: "/",
+        secure: true,
+      });
 
       //http://localhost:3000/dashboard
       //https://www.protolylab.digital

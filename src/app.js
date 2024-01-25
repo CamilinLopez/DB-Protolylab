@@ -19,7 +19,7 @@ server.use(
 
 server.use(
   cors({
-    origin: "https://protolylab.onrender.com",
+    origin: ['https://protolylab.onrender.com', 'http://localhost:3000'],
     credentials: true,
   })
 );
