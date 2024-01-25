@@ -136,6 +136,7 @@ authRouter.get("/verify", (req, res) => {
     path: "/",
     httpOnly: true,
     secure: false,
+    sameSite: None,
   });
   res.status(200).send({ info: req.cookies });
 });
