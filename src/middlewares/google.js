@@ -14,7 +14,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "https://protolylab.onrender.com/auth/google/callback",
+      callbackURL: "http://localhost:3001/auth/google/callback",
     },
     async function (accessToken, refreshToken, profile, cb) {
       try {
@@ -69,34 +69,52 @@ authRouter.get(
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
+async function setCookies(req, res, next) {
+  const user = req.user;
+
+  const token = jwt.sign(
+    {
+      userId: user.id,
+      email: user.email,
+    },
+    "cammmm123",
+    { expiresIn: "1h" }
+  );
+
+  const data = await dataUser(user.id);
+
+  res.cookie("token", token, {
+    domain: "http://localhost:3000/",
+    path: "/",
+    httpOnly: true,
+    secure: false,
+  });
+  res.cookie("id", user.id, {
+    domain: "http://localhost:3000/",
+    path: "/",
+    httpOnly: true,
+    secure: false,
+  });
+  res.cookie("isadmin", data.dataValues.isadmin, {
+    domain: "http://localhost:3000/",
+    path: "/",
+    httpOnly: true,
+    secure: false,
+  });
+
+  next();
+}
+
 authRouter.get(
   "/callback",
   passport.authenticate("google", { failureRedirect: "/auth/google" }),
-  async (req, res) => {
+  setCookies,
+  (req, res) => {
     if (req.isAuthenticated()) {
-      const user = req.user;
-
-      const token = jwt.sign(
-        {
-          userId: user.id,
-          email: user.email,
-        },
-        "cammmm123",
-        { expiresIn: "1h" }
-      );
-
-      const data = await dataUser(user.id);
-
-      console.log(user);
-
-      res.cookie("token", token, { httpOnly: true, secure: false });
-      res.cookie("id", user.id, { httpOnly: true, secure: false });
-      res.cookie("isadmin", data.dataValues.isadmin, {
-        httpOnly: true,
-        secure: false,
-      });
       //http://localhost:3000/dashboard
-      res.redirect(`https://www.protolylab.digital/dashboard`);
+      //https://www.protolylab.digital
+
+      res.redirect(`http://localhost:3000/dashboard`);
     } else res.redirect("/auth/google");
   }
 );
@@ -107,15 +125,12 @@ authRouter.get("/logout", (req, res) => {
 
   //   res.redirect("http://localhost:3000");
   // });
-  res.redirect("https://www.protolylab.digital");
+  //https://www.protolylab.digital
+  res.redirect("http://localhost:3000");
 });
 
 authRouter.get("/verify", (req, res) => {
-  const cookieuser = req.cookies.token;
-
-  if (!cookieuser) res.status(200).send("error de cookie");
-
-  res.status(200).send(cookieuser);
+  res.status(200).send({ info: req.cookies });
 });
 
 module.exports = { passport, authRouter };
