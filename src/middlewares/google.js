@@ -86,7 +86,7 @@ async function setCookies(req, res, next) {
   res.cookie("token", token, {
     domain: "http://localhost:3000/",
     path: "/",
-    httpOnly: true,
+    httpOnly: false,
     secure: false,
   });
   res.cookie("id", user.id, {
