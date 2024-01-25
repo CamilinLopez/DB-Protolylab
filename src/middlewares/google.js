@@ -112,8 +112,8 @@ authRouter.get(
   (req, res) => {
     if (req.isAuthenticated()) {
       res.cookie("isadmin", "perros", {
-        domain: "http://localhost:3000/",
-        path: "/",
+        // domain: "http://localhost:3000",
+        // path: "/",
         httpOnly: true,
         secure: false,
       });
