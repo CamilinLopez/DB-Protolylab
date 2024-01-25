@@ -118,14 +118,14 @@ authRouter.get(
     if (req.isAuthenticated()) {
       const token = jwt.sign(
         {
-          userId: user.id,
-          email: user.email,
+          userId: req.user.id,
+          email: req.user.email,
         },
         "cammmm123",
         { expiresIn: "1h" }
       );
 
-      const data = await dataUser(user.id);
+      const data = await dataUser(req.user.id);
 
       infoUser.id = req.user.id;
       infoUser.token = token;
