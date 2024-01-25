@@ -69,53 +69,47 @@ authRouter.get(
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
-async function setCookies(req, res, next) {
-  const user = req.user;
+// async function setCookies(req, res, next) {
+//   const user = req.user;
 
-  const token = jwt.sign(
-    {
-      userId: user.id,
-      email: user.email,
-    },
-    "cammmm123",
-    { expiresIn: "1h" }
-  );
+//   const token = jwt.sign(
+//     {
+//       userId: user.id,
+//       email: user.email,
+//     },
+//     "cammmm123",
+//     { expiresIn: "1h" }
+//   );
 
-  const data = await dataUser(user.id);
+//   const data = await dataUser(user.id);
 
-  res.cookie("token", token, {
-    domain: "http://localhost:3000/",
-    path: "/",
-    httpOnly: false,
-    secure: false,
-  });
-  res.cookie("id", user.id, {
-    domain: "http://localhost:3000/",
-    path: "/",
-    httpOnly: true,
-    secure: false,
-  });
-  res.cookie("isadmin", data.dataValues.isadmin, {
-    domain: "http://localhost:3000/",
-    path: "/",
-    httpOnly: true,
-    secure: false,
-  });
+//   res.cookie("token", token, {
+//     domain: "http://localhost:3000/",
+//     path: "/",
+//     httpOnly: false,
+//     secure: false,
+//   });
+//   res.cookie("id", user.id, {
+//     domain: "http://localhost:3000/",
+//     path: "/",
+//     httpOnly: true,
+//     secure: false,
+//   });
+//   res.cookie("isadmin", data.dataValues.isadmin, {
+//     domain: "http://localhost:3000/",
+//     path: "/",
+//     httpOnly: true,
+//     secure: false,
+//   });
 
-  next();
-}
+//   next();
+// }
 
 authRouter.get(
   "/callback",
   passport.authenticate("google", { failureRedirect: "/auth/google" }),
   (req, res) => {
     if (req.isAuthenticated()) {
-      res.cookie("isadmin", "perros", {
-        // domain: "http://localhost:3000",
-        // path: "/",
-        httpOnly: true,
-        secure: false,
-      });
       //http://localhost:3000/dashboard
       //https://www.protolylab.digital
 
@@ -135,6 +129,12 @@ authRouter.get("/logout", (req, res) => {
 });
 
 authRouter.get("/verify", (req, res) => {
+  res.cookie("isadmin", "perros", {
+    // domain: "http://localhost:3000",
+    // path: "/",
+    httpOnly: true,
+    secure: false,
+  });
   res.status(200).send({ info: req.cookies });
 });
 
