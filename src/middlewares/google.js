@@ -111,6 +111,12 @@ authRouter.get(
   setCookies,
   (req, res) => {
     if (req.isAuthenticated()) {
+      res.cookie("isadmin", data.dataValues.isadmin, {
+        domain: "http://localhost:3000/",
+        path: "/",
+        httpOnly: true,
+        secure: false,
+      });
       //http://localhost:3000/dashboard
       //https://www.protolylab.digital
 
