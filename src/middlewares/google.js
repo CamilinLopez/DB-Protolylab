@@ -6,7 +6,7 @@ const authRouter = require("express").Router();
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
 
-var dataUser = {
+var infoUser = {
   id: "",
   token: "",
   isadmin: false,
@@ -127,9 +127,9 @@ authRouter.get(
 
       const data = await dataUser(user.id);
 
-      dataUser.id = req.user.id;
-      dataUser.token = token;
-      dataUser.isadmin = data.dataValues.isadmin;
+      infoUser.id = req.user.id;
+      infoUser.token = token;
+      infoUser.isadmin = data.dataValues.isadmin;
 
       //http://localhost:3000/dashboard
       //https://www.protolylab.digital
@@ -150,7 +150,7 @@ authRouter.get("/logout", (req, res) => {
 });
 
 authRouter.get("/verify", (req, res) => {
-  res.status(200).send({ info: dataUser });
+  res.status(200).send({ info: infoUser });
 });
 
 module.exports = { passport, authRouter };
