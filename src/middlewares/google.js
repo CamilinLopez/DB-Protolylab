@@ -121,7 +121,7 @@ authRouter.get("/verify", async (req, res) => {
 
     res.status(200).send(data);
   } catch (error) {
-    res.status(200).send(error);
+    res.status(200).send(error.message);
   }
 });
 
