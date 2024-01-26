@@ -119,7 +119,7 @@ authRouter.get("/verify", async (req, res) => {
       throw new Error("Error en informacio de usuario");
     const data = await verifyTokenAdmin(infoUser);
 
-    res.status(200).send(data);
+    res.status(200).send({ info: data });
   } catch (error) {
     res.status(200).send({ error: error.message });
   }

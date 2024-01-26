@@ -73,9 +73,6 @@ const changeIsAdmin = async (isadmin, id) => {
 
 const verifyTokenAdmin = async (infoUser) => {
   try {
-    if (!infoUser.token) throw new Error("Token no proporcionado");
-    if (!infoUser.id) throw new Error("id no proporcionado");
-
     const user = await users.findOne({ where: { id: infoUser.id } });
     if (!user) throw new Error("usuario no encontrado");
 
