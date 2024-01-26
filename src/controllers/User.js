@@ -76,11 +76,13 @@ const verifyTokenAdmin = async (infoUser) => {
     const user = await users.findOne({ where: { id: infoUser.id } });
     if (!user) throw new Error("usuario no encontrado");
 
-    jwt.verify(infoUser.token, "cammmm123", (err, decode) => {
-      if (err) throw new Error("Token invalido");
-
-      return "holaa" //{ autenticado: true, usuario: decode, isadmin: true };
+    const decoded = await new Promise((resolve, reject) => {
+      jwt.verify(infoUser.token, "cammmm123", (err, decode) => {
+        if (err) reject(new Error("Token invalido"));
+        resolve({ autenticado: true, usuario: decode, isadmin: true });
+      });
     });
+    return decoded;
   } catch (error) {
     throw error;
   }
