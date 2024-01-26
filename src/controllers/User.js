@@ -79,7 +79,7 @@ const verifyTokenAdmin = async (infoUser) => {
     jwt.verify(infoUser.token, "cammmm123", (err, decode) => {
       if (err) throw new Error("Token invalido");
 
-      return { autenticado: true, usuario: decode, isadmin: true };
+      return "holaa" //{ autenticado: true, usuario: decode, isadmin: true };
     });
   } catch (error) {
     throw error;
