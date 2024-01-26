@@ -1,6 +1,5 @@
-const { where } = require("sequelize");
 const { users } = require("../database/db");
-
+const jwt = require("jsonwebtoken");
 const verifyAuser = async () => {
   try {
     const data = await users.findAll();
@@ -72,9 +71,28 @@ const changeIsAdmin = async (isadmin, id) => {
   }
 };
 
+const verifyTokenAdmin = async (infoUser) => {
+  try {
+    if (!infoUser.token) throw new Error("Token no proporcionado");
+    if (!infoUser.id) throw new Error("id no proporcionado");
+
+    const user = await users.findOne({ where: { id: infoUser.id } });
+    if (!user) throw new Error("usuario no encontrado");
+
+    jwt.verify(infoUser.token, "cammmm123", (err, decode) => {
+      if (err) throw new Error("Token invalido");
+
+      return { autenticado: true, usuario: decode, isadmin: true };
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   addUser,
   verifyAuser,
   dataUser,
   changeIsAdmin,
+  verifyTokenAdmin,
 };

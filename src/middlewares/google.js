@@ -1,5 +1,5 @@
 const passport = require("passport");
-const { addUser, dataUser } = require("../controllers/User");
+const { addUser, dataUser, verifyTokenAdmin } = require("../controllers/User");
 const { catchEmpty } = require("../utils");
 const users = require("../database/db");
 const authRouter = require("express").Router();
@@ -75,42 +75,6 @@ authRouter.get(
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
-// async function setCookies(req, res, next) {
-//   const user = req.user;
-
-//   const token = jwt.sign(
-//     {
-//       userId: user.id,
-//       email: user.email,
-//     },
-//     "cammmm123",
-//     { expiresIn: "1h" }
-//   );
-
-//   const data = await dataUser(user.id);
-
-//   res.cookie("token", token, {
-//     domain: "http://localhost:3000/",
-//     path: "/",
-//     httpOnly: false,
-//     secure: false,
-//   });
-//   res.cookie("id", user.id, {
-//     domain: "http://localhost:3000/",
-//     path: "/",
-//     httpOnly: true,
-//     secure: false,
-//   });
-//   res.cookie("isadmin", data.dataValues.isadmin, {
-//     domain: "http://localhost:3000/",
-//     path: "/",
-//     httpOnly: true,
-//     secure: false,
-//   });
-
-//   next();
-// }
-
 authRouter.get(
   "/callback",
   passport.authenticate("google", { failureRedirect: "/auth/google" }),
@@ -149,8 +113,16 @@ authRouter.get("/logout", (req, res) => {
   res.redirect("http://localhost:3000");
 });
 
-authRouter.get("/verify", (req, res) => {
-  res.status(200).send({ info: infoUser });
+authRouter.get("/verify", async (req, res) => {
+  try {
+    if (!infoUser.id || !infoUser.isadmin || !infoUser.token)
+      throw new Error("Error en informacio de usuario");
+    const data = await verifyTokenAdmin(infoUser);
+
+    res.status(200).send(data);
+  } catch (error) {
+    res.status(200).send(error);
+  }
 });
 
 module.exports = { passport, authRouter };
