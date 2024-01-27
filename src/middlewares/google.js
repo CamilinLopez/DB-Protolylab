@@ -6,12 +6,6 @@ const authRouter = require("express").Router();
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
 
-var infoUser = {
-  id: "",
-  token: "",
-  isadmin: false,
-};
-
 var GoogleStrategy = require("passport-google-oauth20").Strategy;
 // https://protolylab.onrender.com/auth/google/callback
 // http://localhost:3001/auth/google/callback
@@ -90,10 +84,10 @@ authRouter.get(
       );
 
       const data = await dataUser(req.user.id);
-
-      infoUser.id = req.user.id;
-      infoUser.token = token;
-      infoUser.isadmin = data.dataValues.isadmin;
+      res.cookie("iduser", req.user.id, {
+        sameSite: "none",
+        secure: true,
+      });
 
       //http://localhost:3000/dashboard
       //https://www.protolylab.digital
@@ -114,15 +108,9 @@ authRouter.get("/logout", (req, res) => {
 });
 
 authRouter.get("/verify", async (req, res) => {
-  try {
-    if (!infoUser.id || !infoUser.isadmin || !infoUser.token)
-      throw new Error("Error en informacio de usuario");
-    const data = await verifyTokenAdmin(infoUser);
+  const dataUser = req.user;
 
-    res.status(200).send({ info: data });
-  } catch (error) {
-    res.status(200).send({ error: error.message });
-  }
+  res.status(200).send({ info: dataUser, message: "si hay info" });
 });
 
 module.exports = { passport, authRouter };
