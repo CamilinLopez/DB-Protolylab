@@ -108,9 +108,16 @@ authRouter.get("/logout", (req, res) => {
 });
 
 authRouter.get("/verify", async (req, res) => {
-  const dataUser = req.session.passport.user;
+  if (req.isAuthenticated()) {
+    // Accede a los datos del usuario desde la sesión
+    const dataUser = req.session.passport.user;
 
-  res.status(200).send({ info: dataUser, message: "si hay info" });
+    res
+      .status(200)
+      .send({ info: dataUser, message: "Sí hay información de usuario" });
+  } else {
+    res.status(200).send({ message: "No autenticado" });
+  }
 });
 
 module.exports = { passport, authRouter };
