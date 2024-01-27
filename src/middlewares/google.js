@@ -59,6 +59,13 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
+const storeUserIdInCookie = (req, res, next) => {
+  if (req.session.passport && req.session.passport.user) {
+    res.cookie("userId", req.session.passport.user);
+  }
+  next();
+};
+
 authRouter.use((err, req, res, next) => {
   if (err) res.status(400).send(err.message);
   else next();
@@ -72,24 +79,19 @@ authRouter.get(
 authRouter.get(
   "/callback",
   passport.authenticate("google", { failureRedirect: "/auth/google" }),
-  async (req, res) => {
+  storeUserIdInCookie,
+  (req, res) => {
     if (req.isAuthenticated()) {
-      const token = jwt.sign(
-        {
-          userId: req.user.id,
-          email: req.user.email,
-        },
-        "cammmm123",
-        { expiresIn: "1h" }
-      );
+      // const token = jwt.sign(
+      //   {
+      //     userId: req.user.id,
+      //     email: req.user.email,
+      //   },
+      //   "cammmm123",
+      //   { expiresIn: "1h" }
+      // );
 
-      const data = await dataUser(req.user.id);
-      res.cookie("rata", req.user.id, {
-        maxAge: 24 * 60 * 60 * 100,
-        secure: false,
-        httpOnly: false,
-        domain: "http://localhost:3000/",
-      });
+      // const data = await dataUser(req.user.id);
 
       //http://localhost:3000/dashboard
       //https://www.protolylab.digital
