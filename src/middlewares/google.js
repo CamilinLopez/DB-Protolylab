@@ -84,10 +84,7 @@ authRouter.get(
       );
 
       const data = await dataUser(req.user.id);
-      res.cookie("iduser", req.user.id, {
-        sameSite: "none",
-        secure: true,
-      });
+      res.cookie("rata", req.user.id);
 
       //http://localhost:3000/dashboard
       //https://www.protolylab.digital
@@ -107,24 +104,8 @@ authRouter.get("/logout", (req, res) => {
   res.redirect("http://localhost:3000");
 });
 
-authRouter.use((req, res, next) => {
-  if (req.isAuthenticated()) {
-    req.user = req.session.passport.user;
-  }
-  next();
-});
-
-authRouter.get("/verify", passport.initialize(), async (req, res) => {
-  if (req.isAuthenticated()) {
-    // Accede a los datos del usuario desde la sesión
-    const dataUser = req.session.passport.user;
-
-    res
-      .status(200)
-      .send({ info: dataUser, message: "Sí hay información de usuario" });
-  } else {
-    res.status(200).send({ message: "No autenticado" });
-  }
+authRouter.get("/verify", async (req, res) => {
+  res.status(200).send({ info: req.cookies.rata });
 });
 
 module.exports = { passport, authRouter };
