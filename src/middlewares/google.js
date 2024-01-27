@@ -84,7 +84,12 @@ authRouter.get(
       );
 
       const data = await dataUser(req.user.id);
-      res.cookie("rata", req.user.id);
+      res.cookie("rata", req.user.id, {
+        maxAge: 24 * 60 * 60 * 100,
+        secure: false,
+        httpOnly: false,
+        domain: "http://localhost:3000/",
+      });
 
       //http://localhost:3000/dashboard
       //https://www.protolylab.digital
