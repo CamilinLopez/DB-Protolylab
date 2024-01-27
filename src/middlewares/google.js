@@ -107,8 +107,8 @@ authRouter.get("/logout", (req, res) => {
   res.redirect("http://localhost:3000");
 });
 
-authRouter.get("/verify", passport.authenticate("google"), async (req, res) => {
-  const dataUser = req.user;
+authRouter.get("/verify", async (req, res) => {
+  const dataUser = req.session.passport.user;
 
   res.status(200).send({ info: dataUser, message: "si hay info" });
 });
