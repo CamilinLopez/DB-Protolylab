@@ -89,7 +89,7 @@ authRouter.get(
       //http://localhost:3000/dashboard
       //https://www.protolylab.digital
 
-      res.redirect(`http://localhost:3000/dashboard`);
+      res.redirect(`http://localhost:3000`);
     } else res.redirect("/auth/google");
   }
 );
