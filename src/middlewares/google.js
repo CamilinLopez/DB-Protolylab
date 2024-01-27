@@ -107,6 +107,13 @@ authRouter.get("/logout", (req, res) => {
   res.redirect("http://localhost:3000");
 });
 
+authRouter.use((req, res, next) => {
+  if (req.isAuthenticated()) {
+    req.user = req.session.passport.user;
+  }
+  next();
+});
+
 authRouter.get("/verify", passport.initialize(), async (req, res) => {
   if (req.isAuthenticated()) {
     // Accede a los datos del usuario desde la sesión
