@@ -34,6 +34,7 @@ server.use(bodyParser.urlencoded({ extended: true, limit: "300mb" }));
 server.use(bodyParser.json({ limit: "300mb" }));
 server.use(morgan("dev"));
 server.use(passport.initialize());
+server.use(passport.session());
 
 server.use("/", routes);
 
