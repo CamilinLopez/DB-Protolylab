@@ -59,13 +59,6 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-const storeUserIdInCookie = (req, res, next) => {
-  if (req.session.passport && req.session.passport.user) {
-    res.cookie("userId", req.session.passport.user);
-  }
-  next();
-};
-
 authRouter.use((err, req, res, next) => {
   if (err) res.status(400).send(err.message);
   else next();
@@ -75,6 +68,13 @@ authRouter.get(
   "/",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
+
+const storeUserIdInCookie = (req, res, next) => {
+  if (req.session.passport && req.session.passport.user) {
+    res.cookie("userId", req.session.passport.user);
+  }
+  next();
+};
 
 authRouter.get(
   "/callback",
@@ -95,6 +95,7 @@ authRouter.get(
 
       //http://localhost:3000/dashboard
       //https://www.protolylab.digital
+      res.cookie("userid", req.user.id);
 
       res.redirect(`http://localhost:3000`);
     } else res.redirect("/auth/google");
