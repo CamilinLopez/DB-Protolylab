@@ -23,8 +23,11 @@ server.use(
 
 server.use(
   cors({
-    origin: "http://localhost:3005",
+    origin: "http://localhost:3000",
     credentials: true,
+    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    exposedHeaders: ["Content-Length", "X-Request-ID"],
   })
 );
 
