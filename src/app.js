@@ -15,7 +15,7 @@ server.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      secure: false, // Ajusta según tu entorno (puede ser true en producción con HTTPS)
+      secure: true, // Ajusta según tu entorno (puede ser true en producción con HTTPS)
       sameSite: "none",
     },
   })
