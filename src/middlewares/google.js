@@ -96,8 +96,9 @@ authRouter.get(
       //https://www.protolylab.digital
       res.cookie("userid", req.user.id, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: true,
         sameSite: "none",
+        domain:".protolylab.digital"
       });
 
       res.redirect(`http://localhost:3000`);
