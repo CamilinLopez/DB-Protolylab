@@ -9,15 +9,13 @@ const session = require("express-session");
 
 const server = express();
 
-server.use(cookieParser());
-
 server.use(
   session({
     secret: "asafeas-efe52wa23ds*",
     resave: false,
     saveUninitialized: true,
     cookie: {
-      secure: false,
+      secure: false, // Ajusta según tu entorno (puede ser true en producción con HTTPS)
       sameSite: "none",
     },
   })
@@ -25,13 +23,15 @@ server.use(
 
 server.use(
   cors({
-    origin: ["https://protolylab.onrender.com/", "http://localhost:3000/"],
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
 
-server.use(bodyParser.urlencoded({ extended: true, limit: "300mb" }));
-server.use(bodyParser.json({ limit: "300mb" }));
+server.use(cookieParser());
+
+server.use(express.json({ limit: "300mb" })); // Utiliza el middleware integrado de Express
+server.use(express.urlencoded({ extended: true, limit: "300mb" })); // Utiliza el middleware integrado de Express
 server.use(morgan("dev"));
 server.use(passport.initialize());
 server.use(passport.session());
@@ -44,7 +44,5 @@ server.use((err, req, res, next) => {
   console.error(err);
   res.status(status).send(message);
 });
-
-// server.use(express.json());
 
 module.exports = server;

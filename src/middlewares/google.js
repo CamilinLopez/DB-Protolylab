@@ -79,7 +79,6 @@ const storeUserIdInCookie = (req, res, next) => {
 authRouter.get(
   "/callback",
   passport.authenticate("google", { failureRedirect: "/auth/google" }),
-  storeUserIdInCookie,
   (req, res) => {
     if (req.isAuthenticated()) {
       // const token = jwt.sign(
@@ -95,7 +94,7 @@ authRouter.get(
 
       //http://localhost:3000/dashboard
       //https://www.protolylab.digital
-      res.cookie("userid", req.user.id, { secure: false });
+      res.cookie("userid", req.user.id, { httpOnly: true });
 
       res.redirect(`http://localhost:3000`);
     } else res.redirect("/auth/google");
