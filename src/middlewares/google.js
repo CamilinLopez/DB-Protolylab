@@ -98,10 +98,10 @@ authRouter.get(
         httpOnly: true,
         secure: true,
         sameSite: "none",
-        domain:".protolylab.digital"
+        domain: ".protolylab.digital",
       });
 
-      res.redirect(`http://localhost:3000`);
+      res.redirect(`https://www.protolylab.digital`);
     } else res.redirect("/auth/google");
   }
 );
