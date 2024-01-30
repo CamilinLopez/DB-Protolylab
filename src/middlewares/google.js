@@ -94,14 +94,14 @@ authRouter.get(
 
       //http://localhost:3000/dashboard
       //https://www.protolylab.digital
-      res.cookie("userid", req.user.id, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-        domain: ".protolylab.digital",
-      });
+      // res.cookie("userid", req.user.id, {
+      //   httpOnly: true,
+      //   secure: true,
+      //   sameSite: "none",
+      //   domain: ".protolylab.digital",
+      // });
 
-      res.redirect(`https://www.protolylab.digital`);
+      res.redirect(`https://www.protolylab.digital?id=${req.user.id}`);
     } else res.redirect("/auth/google");
   }
 );
