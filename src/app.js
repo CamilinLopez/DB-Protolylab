@@ -14,10 +14,6 @@ server.use(
     secret: "asafeas-efe52wa23ds*",
     resave: false,
     saveUninitialized: true,
-    cookie: {
-      secure: true, // Ajusta según tu entorno (puede ser true en producción con HTTPS)
-      sameSite: "none",
-    },
   })
 );
 
