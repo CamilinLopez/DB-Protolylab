@@ -23,7 +23,7 @@ server.use(
 
 server.use(
   cors({
-    origin: "https://www.protolylab.digital",
+    origin: "http://localhost:3000", //http://localhost:3000, https://www.protolylab.digital
     credentials: true,
     methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],

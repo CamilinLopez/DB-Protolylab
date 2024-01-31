@@ -69,13 +69,6 @@ authRouter.get(
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
-const storeUserIdInCookie = (req, res, next) => {
-  if (req.session.passport && req.session.passport.user) {
-    res.cookie("userId", req.session.passport.user);
-  }
-  next();
-};
-
 authRouter.get(
   "/callback",
   passport.authenticate("google", { failureRedirect: "/auth/google" }),
@@ -94,14 +87,14 @@ authRouter.get(
 
       //http://localhost:3000/dashboard
       //https://www.protolylab.digital
-      // res.cookie("userid", req.user.id, {
-      //   httpOnly: true,
-      //   secure: true,
-      //   sameSite: "none",
-      //   domain: ".protolylab.digital",
-      // });
+      res.cookie("userid", req.user.id, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        domain: "http://localhost:3000",
+      });
 
-      res.redirect(`https://www.protolylab.digital?id=${req.user.id}`);
+      res.redirect(`http://localhost:3000`);
     } else res.redirect("/auth/google");
   }
 );
