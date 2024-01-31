@@ -109,7 +109,8 @@ authRouter.get("/logout", (req, res) => {
 });
 
 authRouter.get("/verify", async (req, res) => {
-  res.status(200).send({ info: req.cookies.rata });
+  res.cookie("numero", "3103582395");
+  res.status(200).send("cookie creada");
 });
 
 module.exports = { passport, authRouter };
