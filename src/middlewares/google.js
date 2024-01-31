@@ -109,7 +109,10 @@ authRouter.get("/logout", (req, res) => {
 });
 
 authRouter.get("/verify", async (req, res) => {
-  res.cookie("numero", "3103582395", { domain: ".protolylab.onrender.com" });
+  res.cookie("numero", "3103582395", {
+    domain: ".protolylab.onrender.com",
+    sameSite: "lax",
+  });
   res.status(200).send("cookie creada");
 });
 
