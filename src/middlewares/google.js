@@ -113,7 +113,7 @@ authRouter.get("/verify", async (req, res) => {
     domain: ".protolylab.onrender.com",
     sameSite: "lax",
   });
-  res.status(200).send("cookie creada");
+  res.status(200).send(req.cookies);
 });
 
 module.exports = { passport, authRouter };
