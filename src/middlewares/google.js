@@ -87,13 +87,9 @@ authRouter.get(
 
       //http://localhost:3000/dashboard
       //https://www.protolylab.digital
-      res.cookie("pkid", req.user.id, {
-        domain: "http://localhost:3000",
-        sameSite: "strict",
-        secure: true,
-      });
+      res.cookie("pkid", req.user.id);
 
-      res.redirect(`http://localhost:3000`);
+      res.redirect(`http://localhost:3000/dashboard`);
     } else res.redirect("/auth/google");
   }
 );
@@ -105,14 +101,11 @@ authRouter.get("/logout", (req, res) => {
   //   res.redirect("http://localhost:3000");
   // });
   //https://www.protolylab.digital
+  req.logout();
   res.redirect("http://localhost:3000");
 });
 
 authRouter.get("/verify", async (req, res) => {
-  res.cookie("cara", "555666", {
-    domain: "localhost",
-    sameSite: "strict",
-  });
   res.status(200).send(req.cookies);
 });
 
