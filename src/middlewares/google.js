@@ -1,7 +1,7 @@
 const passport = require("passport");
 const { addUser, dataUser, verifyTokenAdmin } = require("../controllers/User");
 const { catchEmpty } = require("../utils");
-const users = require("../database/db");
+const { users } = require("../database/db");
 const authRouter = require("express").Router();
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
@@ -88,7 +88,7 @@ authRouter.get(
       //http://localhost:3000/dashboard
       //https://www.protolylab.digital
       res.cookie("userid", req.user.id, {
-        domain: ".protolylab.onrender.com",
+        domain: "localhost",
         sameSite: "none",
         secure: true,
       });
