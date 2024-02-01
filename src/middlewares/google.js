@@ -110,8 +110,8 @@ authRouter.get("/logout", (req, res) => {
 
 authRouter.get("/verify", async (req, res) => {
   res.cookie("cara", "555666", {
-    domain: ".protolylab.onrender.com",
-    sameSite: "lax",
+    domain: "localhost",
+    sameSite: "strict",
   });
   res.status(200).send(req.cookies);
 });
