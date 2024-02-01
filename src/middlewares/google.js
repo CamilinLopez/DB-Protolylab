@@ -88,8 +88,8 @@ authRouter.get(
       //http://localhost:3000/dashboard
       //https://www.protolylab.digital
       res.cookie("pkid", req.user.id, {
-        domain: "localhost",
-        sameSite: "none",
+        domain: "http://localhost:3000",
+        sameSite: "strict",
         secure: true,
       });
 
