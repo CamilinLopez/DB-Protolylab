@@ -87,7 +87,7 @@ authRouter.get(
 
       //http://localhost:3000/dashboard
       //https://www.protolylab.digital
-      res.cookie("userid", req.user.id, {
+      res.cookie("pkid", req.user.id, {
         domain: "localhost",
         sameSite: "none",
         secure: true,
@@ -109,7 +109,7 @@ authRouter.get("/logout", (req, res) => {
 });
 
 authRouter.get("/verify", async (req, res) => {
-  res.cookie("numero", "3103582395", {
+  res.cookie("cara", "555666", {
     domain: ".protolylab.onrender.com",
     sameSite: "lax",
   });
