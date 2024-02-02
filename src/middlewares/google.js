@@ -90,19 +90,19 @@ authRouter.get(
       res.cookie("pkid", req.user.id, {
         secure: true,
         sameSite: "none",
-        domain: "localhost:3000",
+        domain: "localhost",
         httpOnly: false,
       });
       res.cookie("token", token, {
         secure: true,
         sameSite: "none",
-        domain: "localhost:3000",
+        domain: "localhost",
         httpOnly: false,
       });
       res.cookie("isadmin", data.isadmin, {
         secure: true,
         sameSite: "none",
-        domain: "localhost:3000",
+        domain: "localhost",
         httpOnly: false,
       });
 
