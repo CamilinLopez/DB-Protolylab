@@ -90,17 +90,20 @@ authRouter.get(
       res.cookie("pkid", req.user.id, {
         secure: true,
         sameSite: "none",
-        domain: "https://localhost:3000",
+        domain: "localhost:3000",
+        httpOnly: false,
       });
       res.cookie("token", token, {
         secure: true,
         sameSite: "none",
-        domain: "https://localhost:3000",
+        domain: "localhost:3000",
+        httpOnly: false,
       });
       res.cookie("isadmin", data.isadmin, {
         secure: true,
         sameSite: "none",
-        domain: "https://localhost:3000",
+        domain: "localhost:3000",
+        httpOnly: false,
       });
 
       res.redirect(`https://localhost:3000/dashboard`);
