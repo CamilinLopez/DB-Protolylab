@@ -92,18 +92,21 @@ authRouter.get(
         sameSite: "none",
         domain: "localhost",
         httpOnly: false,
+        path: "/",
       });
       res.cookie("token", token, {
         secure: true,
         sameSite: "none",
         domain: "localhost",
         httpOnly: false,
+        path: "/",
       });
       res.cookie("isadmin", data.isadmin, {
         secure: true,
         sameSite: "none",
         domain: "localhost",
         httpOnly: false,
+        path: "/",
       });
 
       res.redirect(`https://localhost:3000/dashboard`);
