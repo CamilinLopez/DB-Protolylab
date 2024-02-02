@@ -72,22 +72,24 @@ authRouter.get(
 authRouter.get(
   "/callback",
   passport.authenticate("google", { failureRedirect: "/auth/google" }),
-  (req, res) => {
+  async (req, res) => {
     if (req.isAuthenticated()) {
-      // const token = jwt.sign(
-      //   {
-      //     userId: req.user.id,
-      //     email: req.user.email,
-      //   },
-      //   "cammmm123",
-      //   { expiresIn: "1h" }
-      // );
+      const token = jwt.sign(
+        {
+          userId: req.user.id,
+          email: req.user.email,
+        },
+        "cammmm123",
+        { expiresIn: "1h" }
+      );
 
-      // const data = await dataUser(req.user.id);
+      const data = await dataUser(req.user.id);
 
       //http://localhost:3000/dashboard
       //https://www.protolylab.digital
       res.cookie("pkid", req.user.id);
+      res.cookie("token", token);
+      res.cookie("isadmin", data.isadmin);
 
       res.redirect(`http://localhost:3000/dashboard`);
     } else res.redirect("/auth/google");
