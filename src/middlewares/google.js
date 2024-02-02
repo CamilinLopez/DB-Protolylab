@@ -90,21 +90,21 @@ authRouter.get(
       res.cookie("pkid", req.user.id, {
         secure: true,
         sameSite: "none",
-        domain: "localhost",
+        domain: ".onrender.com",
         httpOnly: false,
         path: "/",
       });
       res.cookie("token", token, {
         secure: true,
         sameSite: "none",
-        domain: "localhost",
+        domain: ".onrender.com",
         httpOnly: false,
         path: "/",
       });
       res.cookie("isadmin", data.isadmin, {
         secure: true,
         sameSite: "none",
-        domain: "localhost",
+        domain: ".onrender.com",
         httpOnly: false,
         path: "/",
       });
