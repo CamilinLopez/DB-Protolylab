@@ -87,9 +87,9 @@ authRouter.get(
 
       //http://localhost:3000/dashboard
       //https://www.protolylab.digital
-      res.cookie("pkid", req.user.id);
-      res.cookie("token", token);
-      res.cookie("isadmin", data.isadmin);
+      res.cookie("pkid", req.user.id, { secure: false});
+      res.cookie("token", token, { secure: false });
+      res.cookie("isadmin", data.isadmin, { secure: false });
 
       res.redirect(`http://localhost:3000/dashboard`);
     } else res.redirect("/auth/google");
