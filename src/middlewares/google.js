@@ -91,7 +91,7 @@ authRouter.get(
       res.cookie("token", token, { secure: true, sameSite: "none" });
       res.cookie("isadmin", data.isadmin, { secure: true, sameSite: "none" });
 
-      res.redirect(`http://localhost:3000/dashboard`);
+      res.redirect(`https://localhost:3000/dashboard`);
     } else res.redirect("/auth/google");
   }
 );
