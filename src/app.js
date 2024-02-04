@@ -8,7 +8,7 @@ const morgan = require("morgan");
 const routes = require("./routes/index");
 const passport = require("passport");
 const session = require("express-session");
-const { CLIENT_DEVELOPMENT_URL } = process.env;
+const { CLIENT_PRODUCTION_URL } = process.env;
 
 const server = express();
 
