@@ -88,10 +88,40 @@ const verifyTokenAdmin = async (infoUser) => {
   }
 };
 
+const verifyUser = async (userid) => {
+  try {
+    if (!userid) throw { error: "no hay id" };
+
+    const user = await users.findOne({ where: { id: userid } });
+    if (!user) throw { error: `usuario no encontrado con el id ${userid}` };
+
+    const decode = await new Promise((resolve, reject) => {
+      jwt.verify(user.token, "cammmm123", (err, decode) => {
+        if (err)
+          reject({
+            validtoken: false,
+            user: !decode && "none",
+            isadmin: user.isadmin,
+          });
+        resolve({
+          validtoken: true,
+          user: decode,
+          isadmin: user.isadmin,
+          token: user.token,
+        });
+      });
+    });
+    return decode;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   addUser,
   verifyAuser,
   dataUser,
   changeIsAdmin,
   verifyTokenAdmin,
+  verifyUser,
 };

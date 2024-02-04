@@ -30,6 +30,10 @@ const User = (sequelize) => {
       defaultValue: false,
       allowNull: false,
     },
+    token: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   });
 };
 

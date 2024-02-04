@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -6,6 +8,7 @@ const morgan = require("morgan");
 const routes = require("./routes/index");
 const passport = require("passport");
 const session = require("express-session");
+const { CLIENT_DEVELOPMENT_URL } = process.env;
 
 const server = express();
 
@@ -19,7 +22,7 @@ server.use(
 
 server.use(
   cors({
-    origin: "https://localhost:3000", //https://localhost:3000, https://www.protolylab.digital
+    origin: CLIENT_PRODUCTION_URL,
     credentials: true,
     methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],

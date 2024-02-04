@@ -1,5 +1,5 @@
 const passport = require("passport");
-const { addUser, dataUser, verifyTokenAdmin } = require("../controllers/User");
+const { addUser, verifyUser } = require("../controllers/User");
 const { catchEmpty } = require("../utils");
 const { users } = require("../database/db");
 const authRouter = require("express").Router();
@@ -7,14 +7,13 @@ const axios = require("axios");
 const jwt = require("jsonwebtoken");
 
 var GoogleStrategy = require("passport-google-oauth20").Strategy;
-// https://protolylab.onrender.com/auth/google/callback
-// http://localhost:3001/auth/google/callback
+
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "https://protolylab.onrender.com/auth/google/callback",
+      callbackURL: process.env.REDIRECT_URL_CALLBACK_PRODUCTION,
     },
     async function (accessToken, refreshToken, profile, cb) {
       try {
@@ -83,16 +82,10 @@ authRouter.get(
         { expiresIn: "1h" }
       );
 
-      const data = await dataUser(req.user.id);
+      if (token)
+        await users.update({ token: token }, { where: { id: req.user.id } });
 
-      //http://localhost:3000/dashboard
-      //https://www.protolylab.digital
-
-      // localStorage.setItem("pkid", req.user.id);
-      // localStorage.setItem("token", token);
-      // localStorage.setItem("isadmin", data.isadmin);
-
-      res.redirect(`https://localhost:3000/dashboard`);
+      res.redirect(`${process.env.CLIENT_PRODUCTION_URL}/dashboard?id=${req.user.id}`);
     } else res.redirect("/auth/google");
   }
 );
@@ -101,15 +94,20 @@ authRouter.get("/logout", (req, res) => {
   // req.logout((err) => {
   //   if (err) return next(err);
 
-  //   res.redirect("http://localhost:3000");
+  //   res.redirect(`${process.env.CLIENT_DEVELOPMENT_URL}`);
   // });
-  //https://www.protolylab.digital
-  req.logout();
-  res.redirect("http://localhost:3000");
+  res.redirect(`${process.env.CLIENT_PRODUCTION_URL}`);
 });
 
 authRouter.get("/verify", async (req, res) => {
-  res.status(200).send(req.cookies);
+  const { id } = req.query;
+
+  try {
+    const data = await verifyUser(id);
+    res.status(200).send(data);
+  } catch (error) {
+    res.status(400).send(error);
+  }
 });
 
 module.exports = { passport, authRouter };

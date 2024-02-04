@@ -5,21 +5,21 @@ const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, EXTERNAl_DATABASE_URL } =
 const modelProject = require("./models/Projects");
 const modelUser = require("./models/Users");
 
-// const database = new Sequelize(
-//   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
-//   { logging: false, native: false }
-// );
-const database = new Sequelize(EXTERNAl_DATABASE_URL, {
-  dialect: "postgres",
-  logging: false,
-  native: false,
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false,
-    },
-  },
-});
+const database = new Sequelize(
+  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
+  { logging: false, native: false }
+);
+// const database = new Sequelize(EXTERNAl_DATABASE_URL, {
+//   dialect: "postgres",
+//   logging: false,
+//   native: false,
+//   dialectOptions: {
+//     ssl: {
+//       require: true,
+//       rejectUnauthorized: false,
+//     },
+//   },
+// });
 
 modelProject(database);
 modelUser(database);
